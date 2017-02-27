@@ -1,1 +1,1 @@
-test
+<meta http-equiv="refresh" content="0; url=https://github.com/dmontaner/tabdif" />
