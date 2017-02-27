@@ -1,8 +1,8 @@
 Package: tabdif
-Title: What the Package Does (one line, title case)
+Title: Find differences across data.frames.
 Version: 0.0.0.9000
 Authors@R: person ("David", "Montaner", email = "david.montaner@gmail.com", role = c ("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: Some useful functions to compare two data.frames and find what has change.
 Depends:
     R (>= 3.0.0)
 License: GPL-2
@@ -12,6 +12,7 @@ Date: 2017-02-27
 URL: http://www.dmontaner.com/, https://github.com/dmontaner/tabdif
 BugReports: https://github.com/dmontaner/tabdif/issues
 VignetteBuilder: knitr
+Imports: openxlsx
 Suggests:
     knitr,
     rmarkdown,
