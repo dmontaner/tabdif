@@ -1,0 +1,19 @@
+Package: tabdif
+Title: What the Package Does (one line, title case)
+Version: 0.0.0.9000
+Authors@R: person ("David", "Montaner", email = "david.montaner@gmail.com", role = c ("aut", "cre"))
+Description: What the package does (one paragraph).
+Depends:
+    R (>= 3.0.0)
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Date: 2017-02-27
+URL: http://www.dmontaner.com/, https://github.com/dmontaner/tabdif
+BugReports: https://github.com/dmontaner/tabdif/issues
+VignetteBuilder: knitr
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+RoxygenNote: 5.0.1
