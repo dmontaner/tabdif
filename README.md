@@ -2,4 +2,4 @@
 find differences across 2 tables
 
 
-[vignette](pkg/inst/doc/tabdif_intro.html)
+[vignette](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
