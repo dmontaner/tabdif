@@ -1,6 +1,6 @@
 ---
-title: tabdif Vignette
-author: [David Montaner](http://www.dmontaner.com)
+title: "tabdif Vignette"
+author: "[David Montaner](http://www.dmontaner.com)"
 created: 2017-02-27
 modified: 2017-02-27
 date: "`r Sys.Date()`"
@@ -10,6 +10,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+
+```{r, echo = FALSE, results = "hide"}
+options (width = 80)
+```
 
 
 About
