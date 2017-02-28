@@ -390,19 +390,20 @@ dfcomp2xlsx <- function (x, file, verbose = FALSE, report.dif.col.class = FALSE,
     ## include summary
     x <- c (s, x)
     
-    ## patch for the 0 row "POSIXct" "POSIXt" columns
-    ## there is a bug in the write.xlsx function
-    ## https://github.com/awalker89/openxlsx/issues/267
-    for (ta in names (x)) {
-        if (nrow (x[[ta]]) == 0) {
-            clases <- sapply (lapply (x[[ta]], class), "[", 1)
-            posix <- which (clases == "POSIXct")
-            for (co in posix) {
-                ##print ("cambiando")
-                x[[ta]][,co] <- as.character (x[[ta]][,co])
-            }
-        }
-    }
+    ## ## patch for the 0 row "POSIXct" "POSIXt" columns
+    ## ## there is a bug in the write.xlsx function
+    ## ## https://github.com/awalker89/openxlsx/issues/267
+    ## ## not needed for openxlsx >= "4.0.9"
+    ## for (ta in names (x)) {
+    ##     if (nrow (x[[ta]]) == 0) {
+    ##         clases <- sapply (lapply (x[[ta]], class), "[", 1)
+    ##         posix <- which (clases == "POSIXct")
+    ##         for (co in posix) {
+    ##             ##print ("cambiando")
+    ##             x[[ta]][,co] <- as.character (x[[ta]][,co])
+    ##         }
+    ##     }
+    ## }
     
     ##write.xlsx
     write.xlsx (x, file = file, colWidths = colWidths, ...)

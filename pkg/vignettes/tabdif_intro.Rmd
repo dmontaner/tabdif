@@ -1,58 +1,78 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: tabdif Vignette
+author: [David Montaner](http://www.dmontaner.com)
+created: 2017-02-27
+modified: 2017-02-27
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{tabdif Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+About
+================================================================================
 
-## Vignette Info
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+Usage
+================================================================================
 
-## Styles
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+Imagine we have two simmilar data.frames
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r}
+library (datasets)
+iris0 <- iris1 <- cbind (iris, N = 1:50)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+with some some cell differences
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+iris1[4, 1] <- 80
+iris1[5, 2] <- 90
+iris1[6, 3:4] <- 100 
 ```
 
-Also a quote using `>`:
+with some different rows
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r}
+iris0 <- iris0[-(1:3),]
+iris1 <- iris1[-150]
+```
+
+wth some different columns
+
+
+```{r}
+iris0[,"mycol0"] <- "A"
+iris1[,c ("mycol1", "mycol2")] <- "B"
+```
+
+Imagine some of the rows are duplicated 
+(or better that they have dulicated id)
+
+
+```{r}
+iris0 <- rbind (iris0, iris0[10,])
+iris1 <- rbind (iris1, iris1[20:21,])
+```
+
+
+```{r}
+head (iris0)
+head (iris1)
+```
+
+```{r}
+library (tabdif)
+
+dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
+
+summary (dif)
+
+dfcomp2xlsx (dif, file = "dif_report.xlsx")
+
+dif
+```

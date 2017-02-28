@@ -16,5 +16,6 @@ Imports: openxlsx
 Suggests:
     knitr,
     rmarkdown,
+    datasets,
     testthat
 RoxygenNote: 5.0.1
