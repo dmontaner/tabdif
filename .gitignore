@@ -36,3 +36,5 @@ check/*
 local/*
 sandbox/*
 
+init.r*
+make.r*

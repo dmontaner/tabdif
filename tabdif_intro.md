@@ -1,61 +1,174 @@
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
-## Vignette Info
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
 
-## Styles
+About
+================================================================================
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+Usage
+================================================================================
 
-## Figures
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+Imagine we have two simmilar data.frames
 
 
 ```r
-plot(1:10)
-plot(10:1)
+library (datasets)
+iris0 <- iris1 <- cbind (iris, N = 1:50)
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-2.png)
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+with some some cell differences
 
 
-|                  |  mpg| cyl|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb|
-|:-----------------|----:|---:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|
-|Mazda RX4         | 21.0|   6| 160.0| 110| 3.90| 2.620| 16.46|  0|  1|    4|    4|
-|Mazda RX4 Wag     | 21.0|   6| 160.0| 110| 3.90| 2.875| 17.02|  0|  1|    4|    4|
-|Datsun 710        | 22.8|   4| 108.0|  93| 3.85| 2.320| 18.61|  1|  1|    4|    1|
-|Hornet 4 Drive    | 21.4|   6| 258.0| 110| 3.08| 3.215| 19.44|  1|  0|    3|    1|
-|Hornet Sportabout | 18.7|   8| 360.0| 175| 3.15| 3.440| 17.02|  0|  0|    3|    2|
-|Valiant           | 18.1|   6| 225.0| 105| 2.76| 3.460| 20.22|  1|  0|    3|    1|
-|Duster 360        | 14.3|   8| 360.0| 245| 3.21| 3.570| 15.84|  0|  0|    3|    4|
-|Merc 240D         | 24.4|   4| 146.7|  62| 3.69| 3.190| 20.00|  1|  0|    4|    2|
-|Merc 230          | 22.8|   4| 140.8|  95| 3.92| 3.150| 22.90|  1|  0|    4|    2|
-|Merc 280          | 19.2|   6| 167.6| 123| 3.92| 3.440| 18.30|  1|  0|    4|    4|
+```r
+iris1[4, 1] <- 80
+iris1[5, 2] <- 90
+iris1[6, 3:4] <- 100 
+```
 
-Also a quote using `>`:
+with some different rows
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+```r
+iris0 <- iris0[-(1:3),]
+iris1 <- iris1[-150]
+```
+
+wth some different columns
+
+
+
+```r
+iris0[,"mycol0"] <- "A"
+iris1[,c ("mycol1", "mycol2")] <- "B"
+```
+
+Imagine some of the rows are duplicated 
+(or better that they have dulicated id)
+
+
+
+```r
+iris0 <- rbind (iris0, iris0[10,])
+iris1 <- rbind (iris1, iris1[20:21,])
+```
+
+
+
+```r
+head (iris0)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species N mycol0
+## 4          4.6         3.1          1.5         0.2  setosa 4      A
+## 5          5.0         3.6          1.4         0.2  setosa 5      A
+## 6          5.4         3.9          1.7         0.4  setosa 6      A
+## 7          4.6         3.4          1.4         0.3  setosa 7      A
+## 8          5.0         3.4          1.5         0.2  setosa 8      A
+## 9          4.4         2.9          1.4         0.2  setosa 9      A
+```
+
+```r
+head (iris1)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species N mycol1 mycol2
+## 1          5.1         3.5          1.4         0.2  setosa 1      B      B
+## 2          4.9         3.0          1.4         0.2  setosa 2      B      B
+## 3          4.7         3.2          1.3         0.2  setosa 3      B      B
+## 4         80.0         3.1          1.5         0.2  setosa 4      B      B
+## 5          5.0        90.0          1.4         0.2  setosa 5      B      B
+## 6          5.4         3.9        100.0       100.0  setosa 6      B      B
+```
+
+
+```r
+library (tabdif)
+
+dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
+```
+
+```
+## NOTE: completely duplicated rows found in old
+## NOTE: completely duplicated rows found in new
+```
+
+```r
+summary (dif)
+```
+
+```
+##  
+## Number of rowKeys used in this table: 2
+## rowKey: N
+## rowKey: Species
+##  
+## Number of Deleted Columns: 1
+##  
+## Number of New Columns: 2
+##  
+## Number of Changed Column Classes: 0
+##  
+## Number of Duplicated Rows Old Table: 2
+##  
+## Number of Duplicated Rows New Table: 4
+##  
+## Number of Deleted Rows: 2
+##  
+## Number of New Rows: 4
+##  
+## Number of Changed Cells: 4
+```
+
+```r
+dfcomp2xlsx (dif, file = "dif_report.xlsx")
+
+dif
+```
+
+```
+## 
+## Deleted Columns
+##   del.cols
+## 1   mycol0
+## 
+## New Columns
+##   new.cols
+## 1   mycol1
+## 2   mycol2
+## 
+## Duplicated Rows Old Table
+##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
+## 1 13  setosa          1.4         0.1          4.8           3
+## 2 13  setosa          1.4         0.1          4.8           3
+## 
+## Duplicated Rows New Table
+##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
+## 1 20  setosa          1.5         0.3          5.1         3.8
+## 2 20  setosa          1.5         0.3          5.1         3.8
+## 3 21  setosa          1.7         0.2          5.4         3.4
+## 4 21  setosa          1.7         0.2          5.4         3.4
+## 
+## Deleted Rows
+##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
+## 1 20  setosa          1.5         0.3          5.1         3.8
+## 2 21  setosa          1.7         0.2          5.4         3.4
+## 
+## New Rows
+##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
+## 1 13  setosa          1.4         0.1          4.8         3.0
+## 2  1  setosa          1.4         0.2          5.1         3.5
+## 3  2  setosa          1.4         0.2          4.9         3.0
+## 4  3  setosa          1.3         0.2          4.7         3.2
+## 
+## Changed Cells
+##   N Species       column old new
+## 1 4  setosa Sepal.Length 4.6  80
+## 2 5  setosa  Sepal.Width 3.6  90
+## 3 6  setosa Petal.Length 1.7 100
+## 4 6  setosa  Petal.Width 0.4 100
+```
