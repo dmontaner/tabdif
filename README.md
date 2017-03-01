@@ -4,35 +4,21 @@
 tabdif
 ================================================================================
 
-[![Build Status](https://travis-ci.org/dmontaner/tabdif.svg?branch=master)](https://travis-ci.org/dmontaner/tabdif)
+[![Build Status](https://travis-ci.org/genometra/SNPediaR.svg?branch=master)](https://travis-ci.org/genometra/SNPediaR)
 
-An R package to query [SNPedia](http://www.snpedia.com/index.php/SNPedia) website.
+An R package to find differences between two `data.frames`.
 
 
 Install
 --------------------------------------------------------------------------------
 
-    library (devtools)
-    install_github ("genometra/tabdif/pkg")
+    install.packages("devtools")
+    library(devtools)
+    install_github("dmontaner/tabdif/pkg")
 
-
-Or download from __Bioconductor__ at:  
-https://bioconductor.org/packages/tabdif
 
 Vignette
 --------------------------------------------------------------------------------
 
-- [tabdif.md](tabdif.md)
-
-
-
-# tabdif
-
-
-
-find differences across 2 tables
-
-[See vignette](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
-
-<a href="http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html" target="_blank">vignette html</a>
-
+- [tabdif_intro.md](tabdif_intro.md)
+- [tabdif_intro.html](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
