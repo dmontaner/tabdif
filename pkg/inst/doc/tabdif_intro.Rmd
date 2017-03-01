@@ -1,0 +1,83 @@
+---
+title: "tabdif Vignette"
+author: "[David Montaner](http://www.dmontaner.com)"
+created: 2017-02-27
+modified: 2017-02-27
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tabdif Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, echo = FALSE, results = "hide"}
+options (width = 80)
+```
+
+
+About
+================================================================================
+
+
+Usage
+================================================================================
+
+
+Imagine we have two simmilar data.frames
+
+```{r}
+library (datasets)
+iris0 <- iris1 <- cbind (iris, N = 1:50)
+```
+
+with some some cell differences
+
+```{r}
+iris1[4, 1] <- 80
+iris1[5, 2] <- 90
+iris1[6, 3:4] <- 100 
+```
+
+with some different rows
+
+```{r}
+iris0 <- iris0[-(1:3),]
+iris1 <- iris1[-150]
+```
+
+wth some different columns
+
+
+```{r}
+iris0[,"mycol0"] <- "A"
+iris1[,c ("mycol1", "mycol2")] <- "B"
+```
+
+Imagine some of the rows are duplicated 
+(or better that they have dulicated id)
+
+
+```{r}
+iris0 <- rbind (iris0, iris0[10,])
+iris1 <- rbind (iris1, iris1[20:21,])
+```
+
+
+```{r}
+head (iris0)
+head (iris1)
+```
+
+```{r}
+library (tabdif)
+
+dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
+
+summary (dif)
+
+dfcomp2xlsx (dif, file = "dif_report.xlsx")
+
+dif
+```
