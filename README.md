@@ -4,7 +4,7 @@
 tabdif
 ================================================================================
 
-[![Build Status](https://travis-ci.org/genometra/SNPediaR.svg?branch=master)](https://travis-ci.org/genometra/SNPediaR)
+[![Build Status](https://travis-ci.org/dmontaner/tabdif.svg?branch=master)](https://travis-ci.org/dmontaner/tabdif)
 
 An R package to find differences between two `data.frames`.
 

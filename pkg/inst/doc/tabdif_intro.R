@@ -26,14 +26,11 @@ head (iris1)
 
 ## -----------------------------------------------------------------------------
 library (tabdif)
-
 dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
-
 summary (dif)
 
+## -----------------------------------------------------------------------------
 dfcomp2xlsx (dif, file = "dif_report.xlsx")
-
-dif
 
 ## ---- echo = FALSE, results = "hide"------------------------------------------
 unlink ("dif_report.xlsx")

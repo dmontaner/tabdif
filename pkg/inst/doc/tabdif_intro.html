@@ -79,7 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="example-data" class="section level2">
 <h2>Example Data</h2>
-<p>Imagine we have two simmilar data.frames <code>iris0</code> and <code>iris1</code></p>
+<p>Imagine we have two similar data.frames <code>iris0</code> and <code>iris1</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris1 &lt;-<span class="st"> </span><span class="kw">cbind</span> (iris, <span class="dt">N =</span> <span class="dv">1</span>:<span class="dv">50</span>)</code></pre></div>
 <p>with some some cell differences</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris1[<span class="dv">4</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">80</span>
@@ -88,10 +88,10 @@ iris1[<span class="dv">6</span>, <span class="dv">3</span>:<span class="dv">4</s
 <p>with some different rows</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris0[-(<span class="dv">1</span>:<span class="dv">3</span>),]
 iris1 &lt;-<span class="st"> </span>iris1[-<span class="dv">150</span>]</code></pre></div>
-<p>wth some different columns</p>
+<p>with some different columns</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0[,<span class="st">&quot;mycol0&quot;</span>] &lt;-<span class="st"> &quot;A&quot;</span>
 iris1[,<span class="kw">c</span> (<span class="st">&quot;mycol1&quot;</span>, <span class="st">&quot;mycol2&quot;</span>)] &lt;-<span class="st"> &quot;B&quot;</span></code></pre></div>
-<p>Imagine some of the rows are duplicated (or better that they have dulicated id)</p>
+<p>Imagine some of the rows are duplicated (or better that they have duplicated id)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris0, iris0[<span class="dv">10</span>,])
 iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[<span class="dv">20</span>:<span class="dv">21</span>,])
 <span class="kw">head</span> (iris0)</code></pre></div>
@@ -113,21 +113,19 @@ iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
-<p>Then we can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences across the two tables.</p>
-<p><code>compareDataFrames</code> cretes a list of classs <code>dfcomp</code> wth the following information:</p>
-<p>Number of Deleted Columns: 0</p>
-<p>Number of New Columns: 0</p>
-<p>Number of Changed Column Classes: 0</p>
-<p>Number of Duplicated Rows Old Table: 0</p>
-<p>Number of Duplicated Rows New Table: 0</p>
-<p>Number of Deleted Rows: 0</p>
-<p>Number of New Rows: 0</p>
-<p>Number of Changed Cells: 0</p>
+<p>Then we can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences between the two tables.</p>
+<p><code>compareDataFrames</code> creates a list of class <code>dfcomp</code> with the following information:</p>
 <ul>
-<li>“del.cols” “new.cols” “dif.col.class” “dup.rows.old” [5] “dup.rows.new” “del.rows” “new.rows” “dif.cells”</li>
+<li>Deleted Columns: Column names in the first (<em>old</em>) data.frame not found in the second one (<em>new</em>).</li>
+<li>New Columns: Column names in the second data.frame not found in the first one.</li>
+<li>Changed Column Classes: Columns with different class in the first and second data.frames.</li>
+<li>Duplicated Rows Old Table: Rows with duplicated ids in the first data.frame. This rows are not compared.</li>
+<li>Duplicated Rows New Table: Rows with duplicated ids in the second data.frame. This rows are not compared.</li>
+<li>Deleted Rows: Rows in the first data.frame which ID is not found in the second data.frame.</li>
+<li>New Rows: Rows in the second data.frame which ID is not found in the first data.frame.</li>
+<li>Changed Cells: Cells which have changed from one dataset to the other.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span> (tabdif)
-
 dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iris0, iris1, <span class="dt">rowKeys =</span> <span class="kw">c</span> (<span class="st">&quot;N&quot;</span>, <span class="st">&quot;Species&quot;</span>))</code></pre></div>
 <pre><code>## NOTE: completely duplicated rows found in old
 ## NOTE: completely duplicated rows found in new</code></pre>
@@ -152,49 +150,8 @@ dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iri
 ## Number of New Rows: 4
 ##  
 ## Number of Changed Cells: 4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dfcomp2xlsx</span> (dif, <span class="dt">file =</span> <span class="st">&quot;dif_report.xlsx&quot;</span>)
-
-dif</code></pre></div>
-<pre><code>## 
-## Deleted Columns
-##   del.cols
-## 1   mycol0
-## 
-## New Columns
-##   new.cols
-## 1   mycol1
-## 2   mycol2
-## 
-## Duplicated Rows Old Table
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 13  setosa          1.4         0.1          4.8           3
-## 2 13  setosa          1.4         0.1          4.8           3
-## 
-## Duplicated Rows New Table
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 20  setosa          1.5         0.3          5.1         3.8
-## 2 20  setosa          1.5         0.3          5.1         3.8
-## 3 21  setosa          1.7         0.2          5.4         3.4
-## 4 21  setosa          1.7         0.2          5.4         3.4
-## 
-## Deleted Rows
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 20  setosa          1.5         0.3          5.1         3.8
-## 2 21  setosa          1.7         0.2          5.4         3.4
-## 
-## New Rows
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 13  setosa          1.4         0.1          4.8         3.0
-## 2  1  setosa          1.4         0.2          5.1         3.5
-## 3  2  setosa          1.4         0.2          4.9         3.0
-## 4  3  setosa          1.3         0.2          4.7         3.2
-## 
-## Changed Cells
-##   N Species       column old new
-## 1 4  setosa Sepal.Length 4.6  80
-## 2 5  setosa  Sepal.Width 3.6  90
-## 3 6  setosa Petal.Length 1.7 100
-## 4 6  setosa  Petal.Width 0.4 100</code></pre>
+<p>The <code>dfcomp</code> object can easily be exported to an <em>xlsx</em> file. Each element of the list above mentioned will be in a tab of the <em>xlsx</em> file.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dfcomp2xlsx</span> (dif, <span class="dt">file =</span> <span class="st">&quot;dif_report.xlsx&quot;</span>)</code></pre></div>
 </div>
 
 

@@ -10,7 +10,7 @@ About
 Example Data
 --------------------------------------------------------------------------------
 
-Imagine we have two simmilar data.frames `iris0` and `iris1`
+Imagine we have two similar data.frames `iris0` and `iris1`
 
 
 ```r
@@ -34,7 +34,7 @@ iris0 <- iris0[-(1:3),]
 iris1 <- iris1[-150]
 ```
 
-wth some different columns
+with some different columns
 
 
 ```r
@@ -43,7 +43,7 @@ iris1[,c ("mycol1", "mycol2")] <- "B"
 ```
 
 Imagine some of the rows are duplicated 
-(or better that they have dulicated id)
+(or better that they have duplicated id)
 
 
 
@@ -78,44 +78,27 @@ head (iris1)
 ```
 
 
-
 Usage
 --------------------------------------------------------------------------------
 
 Then we can use the function `compareDataFrames` 
-in the `tabdif` package to spot differences across the two tables.
+in the `tabdif` package to spot differences between the two tables.
 
+`compareDataFrames` creates a list of class `dfcomp` with the following information:
 
-`compareDataFrames` cretes a list of classs `dfcomp` wth the following information:
-
-Number of Deleted Columns: 0
- 
-Number of New Columns: 0
- 
-Number of Changed Column Classes: 0
- 
-Number of Duplicated Rows Old Table: 0
- 
-Number of Duplicated Rows New Table: 0
- 
-Number of Deleted Rows: 0
- 
-Number of New Rows: 0
- 
-Number of Changed Cells: 0
-
-
-- "del.cols"      "new.cols"      "dif.col.class" "dup.rows.old" 
-[5] "dup.rows.new"  "del.rows"      "new.rows"      "dif.cells"    
-
-
-
+- Deleted Columns: Column names in the first (_old_) data.frame not found in the second one (_new_).
+- New Columns:     Column names in the second        data.frame not found in the first  one.
+- Changed Column Classes: Columns with different class in the first and second data.frames.
+- Duplicated Rows Old Table: Rows with duplicated ids in the first  data.frame. This rows are not compared.
+- Duplicated Rows New Table: Rows with duplicated ids in the second data.frame. This rows are not compared.
+- Deleted Rows: Rows in the first  data.frame which ID is not found in the second data.frame.
+- New Rows:     Rows in the second data.frame which ID is not found in the first  data.frame.
+- Changed Cells: Cells which have changed from one dataset to the other.
 
 
 
 ```r
 library (tabdif)
-
 dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
 ```
 
@@ -151,55 +134,13 @@ summary (dif)
 ## Number of Changed Cells: 4
 ```
 
+
+The `dfcomp` object can easily be exported to an _xlsx_ file. 
+Each element of the list above mentioned will be in a tab of the _xlsx_ file. 
+
+
 ```r
 dfcomp2xlsx (dif, file = "dif_report.xlsx")
-
-dif
 ```
-
-```
-## 
-## Deleted Columns
-##   del.cols
-## 1   mycol0
-## 
-## New Columns
-##   new.cols
-## 1   mycol1
-## 2   mycol2
-## 
-## Duplicated Rows Old Table
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 13  setosa          1.4         0.1          4.8           3
-## 2 13  setosa          1.4         0.1          4.8           3
-## 
-## Duplicated Rows New Table
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 20  setosa          1.5         0.3          5.1         3.8
-## 2 20  setosa          1.5         0.3          5.1         3.8
-## 3 21  setosa          1.7         0.2          5.4         3.4
-## 4 21  setosa          1.7         0.2          5.4         3.4
-## 
-## Deleted Rows
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 20  setosa          1.5         0.3          5.1         3.8
-## 2 21  setosa          1.7         0.2          5.4         3.4
-## 
-## New Rows
-##    N Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-## 1 13  setosa          1.4         0.1          4.8         3.0
-## 2  1  setosa          1.4         0.2          5.1         3.5
-## 3  2  setosa          1.4         0.2          4.9         3.0
-## 4  3  setosa          1.3         0.2          4.7         3.2
-## 
-## Changed Cells
-##   N Species       column old new
-## 1 4  setosa Sepal.Length 4.6  80
-## 2 5  setosa  Sepal.Width 3.6  90
-## 3 6  setosa Petal.Length 1.7 100
-## 4 6  setosa  Petal.Width 0.4 100
-```
-
-
 
 
