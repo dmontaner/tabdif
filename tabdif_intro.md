@@ -4,18 +4,16 @@
 
 
 About
-================================================================================
+--------------------------------------------------------------------------------
 
 
-Usage
-================================================================================
+Example Data
+--------------------------------------------------------------------------------
 
-
-Imagine we have two simmilar data.frames
+Imagine we have two simmilar data.frames `iris0` and `iris1`
 
 
 ```r
-library (datasets)
 iris0 <- iris1 <- cbind (iris, N = 1:50)
 ```
 
@@ -39,7 +37,6 @@ iris1 <- iris1[-150]
 wth some different columns
 
 
-
 ```r
 iris0[,"mycol0"] <- "A"
 iris1[,c ("mycol1", "mycol2")] <- "B"
@@ -53,11 +50,6 @@ Imagine some of the rows are duplicated
 ```r
 iris0 <- rbind (iris0, iris0[10,])
 iris1 <- rbind (iris1, iris1[20:21,])
-```
-
-
-
-```r
 head (iris0)
 ```
 
@@ -84,6 +76,41 @@ head (iris1)
 ## 5          5.0        90.0          1.4         0.2  setosa 5      B      B
 ## 6          5.4         3.9        100.0       100.0  setosa 6      B      B
 ```
+
+
+
+Usage
+--------------------------------------------------------------------------------
+
+Then we can use the function `compareDataFrames` 
+in the `tabdif` package to spot differences across the two tables.
+
+
+`compareDataFrames` cretes a list of classs `dfcomp` wth the following information:
+
+Number of Deleted Columns: 0
+ 
+Number of New Columns: 0
+ 
+Number of Changed Column Classes: 0
+ 
+Number of Duplicated Rows Old Table: 0
+ 
+Number of Duplicated Rows New Table: 0
+ 
+Number of Deleted Rows: 0
+ 
+Number of New Rows: 0
+ 
+Number of Changed Cells: 0
+
+
+- "del.cols"      "new.cols"      "dif.col.class" "dup.rows.old" 
+[5] "dup.rows.new"  "del.rows"      "new.rows"      "dif.cells"    
+
+
+
+
 
 
 ```r
@@ -172,3 +199,7 @@ dif
 ## 3 6  setosa Petal.Length 1.7 100
 ## 4 6  setosa  Petal.Width 0.4 100
 ```
+
+
+
+

@@ -1,5 +1,5 @@
 Package: tabdif
-Title: Find differences across data.frames.
+Title: Find differences across data.frames
 Version: 0.0.0.9000
 Authors@R: person ("David", "Montaner", email = "david.montaner@gmail.com", role = c ("aut", "cre"))
 Description: Some useful functions to compare two data.frames and find what has change.
@@ -18,4 +18,4 @@ Suggests:
     rmarkdown,
     datasets,
     testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

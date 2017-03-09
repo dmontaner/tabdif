@@ -4,10 +4,10 @@
 \alias{print.dfcomp}
 \title{print method for a dfcomp list}
 \usage{
-\method{print}{dfcomp}(x, report.dif.col.class = FALSE, niceNames = TRUE)
+\method{print}{dfcomp}(x, report.dif.col.class = FALSE)
 }
 \arguments{
-\item{x}{a "dfcomp" object created by compareDataFrames.}
+\item{x}{a "dfcomp" object created by the compareDataFrames function.}
 
 \item{report.dif.col.class}{if TRUE differences in the class of the columns of the data frames are reported.}
 }
@@ -17,4 +17,3 @@ print method for a dfcomp list
 \seealso{
 compareDataFrames
 }
-

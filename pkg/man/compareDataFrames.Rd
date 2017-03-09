@@ -41,4 +41,3 @@ The function compares two data.frames.
 \details{
 Details...
 }
-

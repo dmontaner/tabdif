@@ -12,7 +12,7 @@
 
 <meta name="author" content="David Montaner" />
 
-<meta name="date" content="2017-02-28" />
+<meta name="date" content="2017-03-09" />
 
 <title>tabdif Vignette</title>
 
@@ -70,18 +70,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">tabdif Vignette</h1>
 <h4 class="author"><em><a href="http://www.dmontaner.com">David Montaner</a></em></h4>
-<h4 class="date"><em>2017-02-28</em></h4>
+<h4 class="date"><em>2017-03-09</em></h4>
 
 
 
-<div id="about" class="section level1">
-<h1>About</h1>
+<div id="about" class="section level2">
+<h2>About</h2>
 </div>
-<div id="usage" class="section level1">
-<h1>Usage</h1>
-<p>Imagine we have two simmilar data.frames</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span> (datasets)
-iris0 &lt;-<span class="st"> </span>iris1 &lt;-<span class="st"> </span><span class="kw">cbind</span> (iris, <span class="dt">N =</span> <span class="dv">1</span>:<span class="dv">50</span>)</code></pre></div>
+<div id="example-data" class="section level2">
+<h2>Example Data</h2>
+<p>Imagine we have two simmilar data.frames <code>iris0</code> and <code>iris1</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris1 &lt;-<span class="st"> </span><span class="kw">cbind</span> (iris, <span class="dt">N =</span> <span class="dv">1</span>:<span class="dv">50</span>)</code></pre></div>
 <p>with some some cell differences</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris1[<span class="dv">4</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">80</span>
 iris1[<span class="dv">5</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">90</span>
@@ -94,8 +93,8 @@ iris1 &lt;-<span class="st"> </span>iris1[-<span class="dv">150</span>]</code></
 iris1[,<span class="kw">c</span> (<span class="st">&quot;mycol1&quot;</span>, <span class="st">&quot;mycol2&quot;</span>)] &lt;-<span class="st"> &quot;B&quot;</span></code></pre></div>
 <p>Imagine some of the rows are duplicated (or better that they have dulicated id)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris0, iris0[<span class="dv">10</span>,])
-iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[<span class="dv">20</span>:<span class="dv">21</span>,])</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span> (iris0)</code></pre></div>
+iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[<span class="dv">20</span>:<span class="dv">21</span>,])
+<span class="kw">head</span> (iris0)</code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species N mycol0
 ## 4          4.6         3.1          1.5         0.2  setosa 4      A
 ## 5          5.0         3.6          1.4         0.2  setosa 5      A
@@ -111,6 +110,22 @@ iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[
 ## 4         80.0         3.1          1.5         0.2  setosa 4      B      B
 ## 5          5.0        90.0          1.4         0.2  setosa 5      B      B
 ## 6          5.4         3.9        100.0       100.0  setosa 6      B      B</code></pre>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<p>Then we can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences across the two tables.</p>
+<p><code>compareDataFrames</code> cretes a list of classs <code>dfcomp</code> wth the following information:</p>
+<p>Number of Deleted Columns: 0</p>
+<p>Number of New Columns: 0</p>
+<p>Number of Changed Column Classes: 0</p>
+<p>Number of Duplicated Rows Old Table: 0</p>
+<p>Number of Duplicated Rows New Table: 0</p>
+<p>Number of Deleted Rows: 0</p>
+<p>Number of New Rows: 0</p>
+<p>Number of Changed Cells: 0</p>
+<ul>
+<li>“del.cols” “new.cols” “dif.col.class” “dup.rows.old” [5] “dup.rows.new” “del.rows” “new.rows” “dif.cells”</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span> (tabdif)
 
 dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iris0, iris1, <span class="dt">rowKeys =</span> <span class="kw">c</span> (<span class="st">&quot;N&quot;</span>, <span class="st">&quot;Species&quot;</span>))</code></pre></div>

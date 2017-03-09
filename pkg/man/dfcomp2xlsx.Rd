@@ -28,4 +28,3 @@ export dfcomp to an xls file
 \seealso{
 compareDataFrames, openxlsx::write.xlsx
 }
-

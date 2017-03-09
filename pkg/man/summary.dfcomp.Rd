@@ -19,4 +19,3 @@ summary method for a dfcomp list
 \seealso{
 compareDataFrames
 }
-

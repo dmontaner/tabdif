@@ -328,14 +328,15 @@ summary.dfcomp <- function (x, verbose = TRUE, report.dif.col.class = TRUE) {
 
 ##' print method for a dfcomp list
 ##' 
-##' @param x a "dfcomp" object created by compareDataFrames.
+##' @param x a "dfcomp" object created by the compareDataFrames function.
 ##' @param report.dif.col.class if TRUE differences in the class of the columns of the data frames are reported.
-##'
 ##' @seealso compareDataFrames
 ##' 
 ##' @export
 
-print.dfcomp <- function (x, report.dif.col.class = FALSE, niceNames = TRUE) {
+print.dfcomp <- function (x, report.dif.col.class = FALSE) {
+
+    niceNames <- TRUE ## may be this should go to a parameter of the print method
     
     if (!report.dif.col.class) {
         x["dif.col.class"] <- NULL    
