@@ -8,3 +8,4 @@ ToDo List:
 
 - [] Create a shiny wrapper.
 
+- [] Create an HTML version of the `dfcomp` object.

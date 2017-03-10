@@ -1,9 +1,7 @@
 ---
 title: "tabdif Vignette"
 author: "[David Montaner](http://www.dmontaner.com)"
-created: 2017-02-27
-modified: 2017-02-27
-date: "`r Sys.Date()`"
+date: "Created: 2017-02-27 | Revised: 2017-03-10 | Compiled: `r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tabdif Vignette}
@@ -11,10 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+--------------------------------------------------------------------------------
+
 ```{r, echo = FALSE, results = "hide"}
 options (width = 80)
 library (datasets)
 ```
+
 
 About
 --------------------------------------------------------------------------------
