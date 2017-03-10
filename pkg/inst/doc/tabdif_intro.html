@@ -76,9 +76,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <div id="about" class="section level2">
 <h2>About</h2>
-<p>Imagine some of the rows are duplicated (or better that they have duplicated id)</p>
-<p>We can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences between the two tables.</p>
-<p><code>compareDataFrames</code> creates a list of class <code>dfcomp</code> containing the following information:</p>
+<p>The <code>tabdif</code> library is devised to find differences between two tables (data.fames). This is usefull for instance when you want to find changes between two versions of the same dataset.</p>
+<p>The function <code>compareDataFrames</code> creates a list of class <code>dfcomp</code> containing the following information about the differences:</p>
 <ul>
 <li><strong>Deleted Columns</strong>: Column names in the first (<em>old</em>) data.frame not found in the second (<em>new</em>) data.frame.</li>
 <li><strong>New Columns</strong>: Column names in the second data.frame not found in the first data.frame.</li>
@@ -89,93 +88,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>New Rows</strong>: Rows in the second data.frame which ID is not found in the first data.frame.</li>
 <li><strong>Changed Cells</strong>: Cells which have changed from one dataset to the other.</li>
 </ul>
-<table>
-<colgroup>
-<col width="27%"></col>
-<col width="72%"></col>
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left"><p><strong>Deleted Columns</strong></p></td>
-<td align="left"><p>Column names in the first (<em>old</em>) data.frame not found in the second (<em>new</em>) data.frame.</p></td>
-</tr>
-<tr class="even">
-<td align="left"><p><strong>New Columns</strong></p></td>
-<td align="left"><p>Column names in the second data.frame not found in the first data.frame.</p></td>
-</tr>
-<tr class="odd">
-<td align="left"><p><strong>Changed Column Classes</strong></p></td>
-<td align="left"><p>Columns with different class in the first and second data.frames.</p></td>
-</tr>
-<tr class="even">
-<td align="left"><p><strong>Duplicated Rows Old Table</strong></p></td>
-<td align="left"><p>Rows with duplicated IDs in the first data.frame. This rows are not compared.</p></td>
-</tr>
-<tr class="odd">
-<td align="left"><p><strong>Duplicated Rows New Table</strong></p></td>
-<td align="left"><p>Rows with duplicated IDs in the second data.frame. This rows are not compared.</p></td>
-</tr>
-<tr class="even">
-<td align="left"><p><strong>Deleted Rows</strong></p></td>
-<td align="left"><p>Rows in the first data.frame which ID is not found in the second data.frame.</p></td>
-</tr>
-<tr class="odd">
-<td align="left"><p><strong>New Rows</strong></p></td>
-<td align="left"><p>Rows in the second data.frame which ID is not found in the first data.frame.</p></td>
-</tr>
-<tr class="even">
-<td align="left"><p><strong>Changed Cells</strong></p></td>
-<td align="left"><p>Cells which have changed from one dataset to the other.</p></td>
-</tr>
-</tbody>
-</table>
-<p>mas</p>
-<table style="width:172%;">
-<colgroup>
-<col width="44%"></col>
-<col width="127%"></col>
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">One</th>
-<th align="left">Dos</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><strong>Deleted Columns</strong></td>
-<td align="left">Column names in the first (<em>old</em>) data.frame not found in the second (<em>new</em>) data.frame.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>New Columns</strong></td>
-<td align="left">Column names in the second data.frame not found in the first data.frame.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>Changed Column Classes</strong></td>
-<td align="left">Columns with different class in the first and second data.frames.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>Duplicated Rows Old Table</strong></td>
-<td align="left">Rows with duplicated IDs in the first data.frame. This rows are not compared.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>Duplicated Rows New Table</strong></td>
-<td align="left">Rows with duplicated IDs in the second data.frame. This rows are not compared.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>Deleted Rows</strong></td>
-<td align="left">Rows in the first data.frame which ID is not found in the second data.frame.</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>New Rows</strong></td>
-<td align="left">Rows in the second data.frame which ID is not found in the first data.frame.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>Changed Cells</strong></td>
-<td align="left">Cells which have changed from one dataset to the other.</td>
-</tr>
-</tbody>
-</table>
+<p>One or several columns which have to be common in both datasets are used as <em>row keys</em>; together with the other columns names they should uniquely identify cells for the comparison to be done.</p>
 </div>
 <div id="example-data" class="section level2">
 <h2>Example Data</h2>
@@ -243,7 +156,7 @@ dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iri
 ## Number of New Rows: 4
 ##  
 ## Number of Changed Cells: 4</code></pre>
-<p>The elements of the <code>dfcomp</code> list resume the differences between our two tables. For instance <code>dif$dif.cells</code> indicated the cells wich have changed.</p>
+<p>The elements of the <code>dfcomp</code> list created by <code>compareDataFrames</code> resume the differences between our two tables. For instance <code>dif$dif.cells</code> indicates the cells which have changed.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dif$dif.cells</code></pre></div>
 <pre><code>##   N Species       column old new
 ## 1 4  setosa Sepal.Length 4.6  80

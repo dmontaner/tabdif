@@ -1,18 +1,13 @@
 
 
 
-
-
 About
 --------------------------------------------------------------------------------
 
-Imagine some of the rows are duplicated 
-(or better that they have duplicated id)
+The `tabdif` library is devised to find differences between two tables (data.fames).
+This is usefull for instance when you want to find changes between two versions of the same dataset.
 
-We can use the function `compareDataFrames` 
-in the `tabdif` package to spot differences between the two tables.
-
-`compareDataFrames` creates a list of class `dfcomp` containing the following information:
+The function `compareDataFrames` creates a list of class `dfcomp` containing the following information about the differences:
 
 - __Deleted Columns__:           Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.
 - __New Columns__:               Column names in the second        data.frame not found in the first          data.frame.
@@ -23,44 +18,8 @@ in the `tabdif` package to spot differences between the two tables.
 - __New Rows__:                  Rows in the second data.frame which ID is not found in the first  data.frame.
 - __Changed Cells__:             Cells which have changed from one dataset to the other.
 
-
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Deleted Columns__            |Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.|
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __New Columns__                |Column names in the second data.frame not found in the first data.frame.                |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Changed Column Classes__     |Columns with different class in the first and second data.frames.                       |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Duplicated Rows Old Table__  |Rows with duplicated IDs in the first data.frame. This rows are not compared.           |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Duplicated Rows New Table__  |Rows with duplicated IDs in the second data.frame. This rows are not compared.          |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Deleted Rows__               |Rows in the first data.frame which ID is not found in the second data.frame.            |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __New Rows__                   |Rows in the second data.frame which ID is not found in the first data.frame.            |
-+--------------------------------+----------------------------------------------------------------------------------------+
-| __Changed Cells__              |Cells which have changed from one dataset to the other.                                 |
-+--------------------------------+----------------------------------------------------------------------------------------+
-
-
-mas
-
-
-One                            | Dos
--------------------------------|-------------------------------------------------------------------------------------------
-__Deleted Columns__            |Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.
-__New Columns__                |Column names in the second data.frame not found in the first data.frame.
-__Changed Column Classes__     |Columns with different class in the first and second data.frames.
-__Duplicated Rows Old Table__  |Rows with duplicated IDs in the first data.frame. This rows are not compared.
-__Duplicated Rows New Table__  |Rows with duplicated IDs in the second data.frame. This rows are not compared.
-__Deleted Rows__               |Rows in the first data.frame which ID is not found in the second data.frame.   
-__New Rows__                   |Rows in the second data.frame which ID is not found in the first data.frame.
-__Changed Cells__              |Cells which have changed from one dataset to the other.
-
-
-
-
-
+One or several columns which have to be common in both datasets are used as _row keys_;
+together with the other columns names they should uniquely identify cells for the comparison to be done. 
 
 Example Data
 --------------------------------------------------------------------------------
@@ -162,8 +121,9 @@ summary (dif)
 ## Number of Changed Cells: 4
 ```
 
-The elements of the `dfcomp` list resume the differences between our two tables.
-For instance `dif$dif.cells` indicated the cells wich have changed. 
+The elements of the `dfcomp` list created by `compareDataFrames` 
+resume the differences between our two tables.
+For instance `dif$dif.cells` indicates the cells which have changed.
 
 
 ```r
@@ -177,10 +137,6 @@ dif$dif.cells
 ## 3 6  setosa Petal.Length 1.7 100
 ## 4 6  setosa  Petal.Width 0.4 100
 ```
-
-
-
-
 
 
 Export
