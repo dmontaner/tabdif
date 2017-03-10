@@ -4,14 +4,20 @@
 \alias{summary.dfcomp}
 \title{summary method for a dfcomp list}
 \usage{
-\method{summary}{dfcomp}(x, verbose = TRUE, report.dif.col.class = TRUE)
+\method{summary}{dfcomp}(object, verbose = TRUE,
+  report.dif.col.class = TRUE, ...)
 }
 \arguments{
-\item{x}{a dfcomp element created by compareDataFrames.}
+\item{object}{a dfcomp element created by compareDataFrames.}
 
 \item{verbose}{verbose.}
 
 \item{report.dif.col.class}{if TRUE differences in the class of the columns of the data frames are reported.}
+
+\item{\dots}{further arguments passed to or from other methods.}
+}
+\value{
+an invisible data.frame is returned.
 }
 \description{
 summary method for a dfcomp list

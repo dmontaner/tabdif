@@ -12,7 +12,7 @@
 
 <meta name="author" content="David Montaner" />
 
-<meta name="date" content="2017-03-09" />
+<meta name="date" content="2017-03-10" />
 
 <title>tabdif Vignette</title>
 
@@ -70,31 +70,88 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">tabdif Vignette</h1>
 <h4 class="author"><em><a href="http://www.dmontaner.com">David Montaner</a></em></h4>
-<h4 class="date"><em>2017-03-09</em></h4>
+<h4 class="date"><em>2017-03-10</em></h4>
 
 
 
 <div id="about" class="section level2">
 <h2>About</h2>
+<p>Imagine some of the rows are duplicated (or better that they have duplicated id)</p>
+<p>We can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences between the two tables.</p>
+<p><code>compareDataFrames</code> creates a list of class <code>dfcomp</code> containing the following information:</p>
+<ul>
+<li><strong>Deleted Columns</strong>: Column names in the first (<em>old</em>) data.frame not found in the second (<em>new</em>) data.frame.</li>
+<li><strong>New Columns</strong>: Column names in the second data.frame not found in the first data.frame.</li>
+<li><strong>Changed Column Classes</strong>: Columns with different class in the first and second data.frames.</li>
+<li><strong>Duplicated Rows Old Table</strong>: Rows with duplicated IDs in the first data.frame. This rows are not compared.</li>
+<li><strong>Duplicated Rows New Table</strong>: Rows with duplicated IDs in the second data.frame. This rows are not compared.</li>
+<li><strong>Deleted Rows</strong>: Rows in the first data.frame which ID is not found in the second data.frame.</li>
+<li><strong>New Rows</strong>: Rows in the second data.frame which ID is not found in the first data.frame.</li>
+<li><strong>Changed Cells</strong>: Cells which have changed from one dataset to the other.</li>
+</ul>
+<table>
+<colgroup>
+<col width="27%"></col>
+<col width="72%"></col>
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left"><p><strong>Deleted Columns</strong></p></td>
+<td align="left"><p>Column names in the first (<em>old</em>) data.frame not found in the second (<em>new</em>) data.frame.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><strong>New Columns</strong></p></td>
+<td align="left"><p>Column names in the second data.frame not found in the first data.frame.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p><strong>Changed Column Classes</strong></p></td>
+<td align="left"><p>Columns with different class in the first and second data.frames.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><strong>Duplicated Rows Old Table</strong></p></td>
+<td align="left"><p>Rows with duplicated IDs in the first data.frame. This rows are not compared.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p><strong>Duplicated Rows New Table</strong></p></td>
+<td align="left"><p>Rows with duplicated IDs in the second data.frame. This rows are not compared.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><strong>Deleted Rows</strong></p></td>
+<td align="left"><p>Rows in the first data.frame which ID is not found in the second data.frame.</p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p><strong>New Rows</strong></p></td>
+<td align="left"><p>Rows in the second data.frame which ID is not found in the first data.frame.</p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><strong>Changed Cells</strong></p></td>
+<td align="left"><p>Cells which have changed from one dataset to the other.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="example-data" class="section level2">
 <h2>Example Data</h2>
 <p>Imagine we have two similar data.frames <code>iris0</code> and <code>iris1</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris1 &lt;-<span class="st"> </span><span class="kw">cbind</span> (iris, <span class="dt">N =</span> <span class="dv">1</span>:<span class="dv">50</span>)</code></pre></div>
-<p>with some some cell differences</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris1[<span class="dv">4</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">80</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris1 &lt;-<span class="st"> </span><span class="kw">cbind</span> (iris, <span class="dt">N =</span> <span class="dv">1</span>:<span class="dv">50</span>)
+
+## with some some cell differences
+iris1[<span class="dv">4</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">80</span>
 iris1[<span class="dv">5</span>, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">90</span>
-iris1[<span class="dv">6</span>, <span class="dv">3</span>:<span class="dv">4</span>] &lt;-<span class="st"> </span><span class="dv">100</span> </code></pre></div>
-<p>with some different rows</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span>iris0[-(<span class="dv">1</span>:<span class="dv">3</span>),]
-iris1 &lt;-<span class="st"> </span>iris1[-<span class="dv">150</span>]</code></pre></div>
-<p>with some different columns</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0[,<span class="st">&quot;mycol0&quot;</span>] &lt;-<span class="st"> &quot;A&quot;</span>
-iris1[,<span class="kw">c</span> (<span class="st">&quot;mycol1&quot;</span>, <span class="st">&quot;mycol2&quot;</span>)] &lt;-<span class="st"> &quot;B&quot;</span></code></pre></div>
-<p>Imagine some of the rows are duplicated (or better that they have duplicated id)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iris0 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris0, iris0[<span class="dv">10</span>,])
-iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[<span class="dv">20</span>:<span class="dv">21</span>,])
-<span class="kw">head</span> (iris0)</code></pre></div>
+iris1[<span class="dv">6</span>, <span class="dv">3</span>:<span class="dv">4</span>] &lt;-<span class="st"> </span><span class="dv">100</span> 
+
+## with some different rows
+iris0 &lt;-<span class="st"> </span>iris0[-(<span class="dv">1</span>:<span class="dv">3</span>),]
+iris1 &lt;-<span class="st"> </span>iris1[-<span class="dv">150</span>]
+
+## with some different columns
+iris0[,<span class="st">&quot;mycol0&quot;</span>] &lt;-<span class="st"> &quot;A&quot;</span>
+iris1[,<span class="kw">c</span> (<span class="st">&quot;mycol1&quot;</span>, <span class="st">&quot;mycol2&quot;</span>)] &lt;-<span class="st"> &quot;B&quot;</span>
+
+## with some duplicated rows
+iris0 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris0, iris0[<span class="dv">10</span>,])
+iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[<span class="dv">20</span>:<span class="dv">21</span>,])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span> (iris0)</code></pre></div>
 <pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species N mycol0
 ## 4          4.6         3.1          1.5         0.2  setosa 4      A
 ## 5          5.0         3.6          1.4         0.2  setosa 5      A
@@ -113,18 +170,7 @@ iris1 &lt;-<span class="st"> </span><span class="kw">rbind</span> (iris1, iris1[
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
-<p>Then we can use the function <code>compareDataFrames</code> in the <code>tabdif</code> package to spot differences between the two tables.</p>
-<p><code>compareDataFrames</code> creates a list of class <code>dfcomp</code> with the following information:</p>
-<ul>
-<li>Deleted Columns: Column names in the first (<em>old</em>) data.frame not found in the second one (<em>new</em>).</li>
-<li>New Columns: Column names in the second data.frame not found in the first one.</li>
-<li>Changed Column Classes: Columns with different class in the first and second data.frames.</li>
-<li>Duplicated Rows Old Table: Rows with duplicated ids in the first data.frame. This rows are not compared.</li>
-<li>Duplicated Rows New Table: Rows with duplicated ids in the second data.frame. This rows are not compared.</li>
-<li>Deleted Rows: Rows in the first data.frame which ID is not found in the second data.frame.</li>
-<li>New Rows: Rows in the second data.frame which ID is not found in the first data.frame.</li>
-<li>Changed Cells: Cells which have changed from one dataset to the other.</li>
-</ul>
+<p>The function <code>compareDataFrames</code> finds the differences between the two tables. In our example <em>row keys</em> are defined by 2 columns: “N” and “Species”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span> (tabdif)
 dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iris0, iris1, <span class="dt">rowKeys =</span> <span class="kw">c</span> (<span class="st">&quot;N&quot;</span>, <span class="st">&quot;Species&quot;</span>))</code></pre></div>
 <pre><code>## NOTE: completely duplicated rows found in old
@@ -150,7 +196,17 @@ dif &lt;-<span class="st"> </span><span class="kw">compareDataFrames</span> (iri
 ## Number of New Rows: 4
 ##  
 ## Number of Changed Cells: 4</code></pre>
-<p>The <code>dfcomp</code> object can easily be exported to an <em>xlsx</em> file. Each element of the list above mentioned will be in a tab of the <em>xlsx</em> file.</p>
+<p>The elements of the <code>dfcomp</code> list resume the differences between our two tables. For instance <code>dif$dif.cells</code> indicated the cells wich have changed.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dif$dif.cells</code></pre></div>
+<pre><code>##   N Species       column old new
+## 1 4  setosa Sepal.Length 4.6  80
+## 2 5  setosa  Sepal.Width 3.6  90
+## 3 6  setosa Petal.Length 1.7 100
+## 4 6  setosa  Petal.Width 0.4 100</code></pre>
+</div>
+<div id="export" class="section level2">
+<h2>Export</h2>
+<p>The <code>dfcomp</code> list can easily be exported to an <em>xlsx</em> file. Each element of the list will be in a separated sheet of the <em>xlsx</em> file, including a summary of the differences in the first page.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dfcomp2xlsx</span> (dif, <span class="dt">file =</span> <span class="st">&quot;dif_report.xlsx&quot;</span>)</code></pre></div>
 </div>
 

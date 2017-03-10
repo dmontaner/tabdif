@@ -21,6 +21,44 @@ library (datasets)
 About
 --------------------------------------------------------------------------------
 
+Imagine some of the rows are duplicated 
+(or better that they have duplicated id)
+
+We can use the function `compareDataFrames` 
+in the `tabdif` package to spot differences between the two tables.
+
+`compareDataFrames` creates a list of class `dfcomp` containing the following information:
+
+- __Deleted Columns__:           Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.
+- __New Columns__:               Column names in the second        data.frame not found in the first          data.frame.
+- __Changed Column Classes__:    Columns with different class in the first and second data.frames.
+- __Duplicated Rows Old Table__: Rows with duplicated IDs in the first  data.frame. This rows are not compared.
+- __Duplicated Rows New Table__: Rows with duplicated IDs in the second data.frame. This rows are not compared.
+- __Deleted Rows__:              Rows in the first  data.frame which ID is not found in the second data.frame.
+- __New Rows__:                  Rows in the second data.frame which ID is not found in the first  data.frame.
+- __Changed Cells__:             Cells which have changed from one dataset to the other.
+
+
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Deleted Columns__            |Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.|
++--------------------------------+----------------------------------------------------------------------------------------+
+| __New Columns__                |Column names in the second data.frame not found in the first data.frame.                |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Changed Column Classes__     |Columns with different class in the first and second data.frames.                       |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Duplicated Rows Old Table__  |Rows with duplicated IDs in the first data.frame. This rows are not compared.           |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Duplicated Rows New Table__  |Rows with duplicated IDs in the second data.frame. This rows are not compared.          |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Deleted Rows__               |Rows in the first data.frame which ID is not found in the second data.frame.            |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __New Rows__                   |Rows in the second data.frame which ID is not found in the first data.frame.            |
++--------------------------------+----------------------------------------------------------------------------------------+
+| __Changed Cells__              |Cells which have changed from one dataset to the other.                                 |
++--------------------------------+----------------------------------------------------------------------------------------+
+
+
+
 
 Example Data
 --------------------------------------------------------------------------------
@@ -29,59 +67,35 @@ Imagine we have two similar data.frames `iris0` and `iris1`
 
 ```{r}
 iris0 <- iris1 <- cbind (iris, N = 1:50)
-```
 
-with some some cell differences
-
-```{r}
+## with some some cell differences
 iris1[4, 1] <- 80
 iris1[5, 2] <- 90
 iris1[6, 3:4] <- 100 
-```
 
-with some different rows
-
-```{r}
+## with some different rows
 iris0 <- iris0[-(1:3),]
 iris1 <- iris1[-150]
-```
 
-with some different columns
-
-```{r}
+## with some different columns
 iris0[,"mycol0"] <- "A"
 iris1[,c ("mycol1", "mycol2")] <- "B"
-```
 
-Imagine some of the rows are duplicated 
-(or better that they have duplicated id)
-
-
-```{r}
+## with some duplicated rows
 iris0 <- rbind (iris0, iris0[10,])
 iris1 <- rbind (iris1, iris1[20:21,])
+```
+
+```{r}
 head (iris0)
 head (iris1)
 ```
 
-
 Usage
 --------------------------------------------------------------------------------
 
-Then we can use the function `compareDataFrames` 
-in the `tabdif` package to spot differences between the two tables.
-
-`compareDataFrames` creates a list of class `dfcomp` with the following information:
-
-- Deleted Columns: Column names in the first (_old_) data.frame not found in the second one (_new_).
-- New Columns:     Column names in the second        data.frame not found in the first  one.
-- Changed Column Classes: Columns with different class in the first and second data.frames.
-- Duplicated Rows Old Table: Rows with duplicated ids in the first  data.frame. This rows are not compared.
-- Duplicated Rows New Table: Rows with duplicated ids in the second data.frame. This rows are not compared.
-- Deleted Rows: Rows in the first  data.frame which ID is not found in the second data.frame.
-- New Rows:     Rows in the second data.frame which ID is not found in the first  data.frame.
-- Changed Cells: Cells which have changed from one dataset to the other.
-
+The function `compareDataFrames` finds the differences between the two tables.
+In our example _row keys_ are defined by 2 columns: "N" and "Species".
 
 ```{r}
 library (tabdif)
@@ -89,9 +103,24 @@ dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
 summary (dif)
 ```
 
+The elements of the `dfcomp` list resume the differences between our two tables.
+For instance `dif$dif.cells` indicated the cells wich have changed. 
 
-The `dfcomp` object can easily be exported to an _xlsx_ file. 
-Each element of the list above mentioned will be in a tab of the _xlsx_ file. 
+```{r}
+dif$dif.cells
+```
+
+
+
+
+
+
+Export
+--------------------------------------------------------------------------------
+
+The `dfcomp` list can easily be exported to an _xlsx_ file. 
+Each element of the list will be in a separated sheet of the _xlsx_ file,
+including a summary of the differences in the first page. 
 
 ```{r}
 dfcomp2xlsx (dif, file = "dif_report.xlsx")

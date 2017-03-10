@@ -267,24 +267,27 @@ niceNames <- function (x) {
 
 ##' summary method for a dfcomp list
 ##'
-##' @param x a dfcomp element created by compareDataFrames.
+##' @param object a dfcomp element created by compareDataFrames.
 ##' @param verbose verbose.
 ##' @param report.dif.col.class if TRUE differences in the class of the columns of the data frames are reported.
+##' @param \dots further arguments passed to or from other methods.
 ##'
+##' @return an invisible data.frame is returned.
+##' 
 ##' @seealso compareDataFrames
 ##' 
-##' @export
+## @export
 
-summary.dfcomp <- function (x, verbose = TRUE, report.dif.col.class = TRUE) {
-    
+summary.dfcomp <- function (object, verbose = TRUE, report.dif.col.class = TRUE, ...) {
+
     ## attributes need to be extracted before slicing
-    rk <- rowKeys (x)
+    rk <- rowKeys (object)
     Nrk <- length (rk)
-    nn <- niceNames (x)
+    nn <- niceNames (object)
     
     ## exclude dif.col.class from the report
     if (!report.dif.col.class) {
-        x["dif.col.class"] <- NULL    
+        object["dif.col.class"] <- NULL    
     }
     
     ## mat to store results
@@ -298,11 +301,11 @@ summary.dfcomp <- function (x, verbose = TRUE, report.dif.col.class = TRUE) {
     mat <- rbind (mat, lin)
     
     ## Deleted Columns
-    for (na in names (x)) {
+    for (na in names (object)) {
         lin <- cbind ("", "")
         mat <- rbind (mat, lin)
         ##
-        lin <- cbind (paste0 ("Number of ", nn[na], ":"), nrow (x[[na]]))
+        lin <- cbind (paste0 ("Number of ", nn[na], ":"), nrow (object[[na]]))
         mat <- rbind (mat, lin)
     }
 
@@ -330,13 +333,13 @@ summary.dfcomp <- function (x, verbose = TRUE, report.dif.col.class = TRUE) {
 ##' 
 ##' @param x a "dfcomp" object created by the compareDataFrames function.
 ##' @param report.dif.col.class if TRUE differences in the class of the columns of the data frames are reported.
+##' @param niceNames if TRUE nicer labeling is used in the output.
+##' @param \dots further arguments passed to or from other methods.
 ##' @seealso compareDataFrames
 ##' 
-##' @export
+##  @export
 
-print.dfcomp <- function (x, report.dif.col.class = FALSE) {
-
-    niceNames <- TRUE ## may be this should go to a parameter of the print method
+print.dfcomp <- function (x, report.dif.col.class = FALSE, niceNames = TRUE, ...) {
     
     if (!report.dif.col.class) {
         x["dif.col.class"] <- NULL    
@@ -409,59 +412,3 @@ dfcomp2xlsx <- function (x, file, verbose = FALSE, report.dif.col.class = FALSE,
     ##write.xlsx
     write.xlsx (x, file = file, colWidths = colWidths, ...)
 }
-
-################################################################################
-
-## ## Vignette
-
-## ## create unique index variable
-## iris0 <- iris1 <- cbind (iris, N = 1:50)
-
-## ## add some cell differences
-## iris1[4, 1] <- 80
-## iris1[5, 2] <- 90
-## iris1[6, 3:4] <- 100 
-
-## ## delete some rows
-## iris0 <- iris0[-(1:3),]
-## iris1 <- iris1[-150]
-
-## ## add extra columns
-## iris0[,"mycol0"] <- "A"
-## iris1[,c ("mycol1", "mycol2")] <- "B"
-
-## ## add duplicated rows (duplicated ids)
-## iris0 <- rbind (iris0, iris0[10,])
-## iris1 <- rbind (iris1, iris1[20:21,])
-
-## head (iris0)
-## head (iris1)
-
-## dif <- compareDataFrames (iris0, iris1, rowKeys = c ("N", "Species"))
-
-## class (dif)
-## is.list (dif)
-## summary (dif)
-
-## dfcomp2xlsx (dif, file = "dif_report.xlsx")
-
-## ### end vignette and more tests
-
-## s <- summary.dfcomp (dif, verbose = FALSE)
-
-## print (dif, niceNames = FALSE)
-
-## print (dif, TRUE)
-
-## dfcomp2xlsx (dif, file = "salida.xls")
-## dfcomp2xlsx (dif, file = "salida.xlsx")
-
-## dfcomp2xlsx (dif, file = "salida.xlsx", asTable = TRUE)
-
-## dfcomp2xlsx (dif, file = "salida")
-
-## names (dif)
-
-## rowKeys (dif)
-
-## head (iris0)
