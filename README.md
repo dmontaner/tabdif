@@ -6,7 +6,7 @@ tabdif
 
 [![Build Status](https://travis-ci.org/dmontaner/tabdif.svg?branch=master)](https://travis-ci.org/dmontaner/tabdif)
 
-An R package to find differences between two `data.frames`.
+An R package to find differences between two tables or `data.frames`
 
 
 Install
@@ -20,5 +20,4 @@ Install
 Vignette
 --------------------------------------------------------------------------------
 
-- [tabdif_intro.md](tabdif_intro.md)
-- [tabdif_intro.html](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
+- tabdif_intro: [md](tabdif_intro.md) - [HTML](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
