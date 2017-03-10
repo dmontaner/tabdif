@@ -20,4 +20,6 @@ Install
 Vignette
 --------------------------------------------------------------------------------
 
-- tabdif_intro: [md](tabdif_intro.md) - [HTML](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
+- tabdif_intro:
+    + [md format](tabdif_intro.md)
+    + [HTML format](http://www.dmontaner.com/tabdif/pkg/inst/doc/tabdif_intro.html)
