@@ -58,6 +58,23 @@ in the `tabdif` package to spot differences between the two tables.
 +--------------------------------+----------------------------------------------------------------------------------------+
 
 
+mas
+
+
+One                            | Dos
+-------------------------------|-------------------------------------------------------------------------------------------
+__Deleted Columns__            |Column names in the first (_old_) data.frame not found in the second (_new_) data.frame.
+__New Columns__                |Column names in the second data.frame not found in the first data.frame.
+__Changed Column Classes__     |Columns with different class in the first and second data.frames.
+__Duplicated Rows Old Table__  |Rows with duplicated IDs in the first data.frame. This rows are not compared.
+__Duplicated Rows New Table__  |Rows with duplicated IDs in the second data.frame. This rows are not compared.
+__Deleted Rows__               |Rows in the first data.frame which ID is not found in the second data.frame.   
+__New Rows__                   |Rows in the second data.frame which ID is not found in the first data.frame.
+__Changed Cells__              |Cells which have changed from one dataset to the other.
+
+
+
+
 
 
 Example Data
